@@ -6,8 +6,13 @@ export default async function Protocol(
   res: NextApiResponse
 ) {
   try {
-    const { cname } = req.query;
-    const proposalsData = await axios.get("/protocols/" + cname + "/proposals");
+    const { cname, cursor } = req.query;
+    const proposalsData = await axios.get(
+      "/protocols/" +
+        cname +
+        "/proposals" +
+        `${cursor ? `?cursor=${cursor}` : ""}`
+    );
     res.status(200).json(proposalsData.data);
   } catch (error) {
     res.json(error);

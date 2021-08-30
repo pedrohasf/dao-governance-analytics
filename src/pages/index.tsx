@@ -2,7 +2,7 @@ import Head from "next/head";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { IProtocol } from "../utils/interfaces";
-import formatter from "../utils/formatter";
+import formatter from "../utils/currencyFormatter";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -16,8 +16,6 @@ export default function Home() {
     fetchAllProtocols();
     setLoading(false);
   }, []);
-
-  console.log(allProtocolsData);
   return (
     <div className="bg-gray-900 text-white py-8">
       <Head>
