@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { GetServerSideProps } from "next";
 import { getDataProposalVotes } from "../../../api/proposals/[refId]/votes";
 import { getDataProposal } from "../../../api/proposals/[refId]";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft, FiChevronRight } from "react-icons/fi";
 import numberFormatter from "../../../../utils/numberFormatter";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -22,7 +22,7 @@ export default function Proposal({
   nextCursor,
 }: IProps) {
   const router = useRouter();
-  const { refId } = router.query;
+  const { refId, cname } = router.query;
   const [proposalVotesNextCursor, setProposalVotesNextCursor] =
     useState(nextCursor);
   const [allProposalVotesData, setAllProposalVotesData] =
@@ -41,22 +41,32 @@ export default function Proposal({
     setProposalVotesNextCursor(proposalVotesResponse.data.nextCursor);
   };
   return (
-    <div className="py-8">
+    <div className="py-6">
       <Head>
         <title>
           {proposalData.protocol} | {proposalData.title}
         </title>
       </Head>
+      <div className="flex items-center text-lg pb-6 px-12">
+        <a className="hover:underline text-gray-600" href="/">
+          Home
+        </a>
+        <FiChevronRight />
+        <a
+          className="hover:underline text-gray-600"
+          href={`/governance/${cname}`}
+        >
+          Governance
+        </a>
+        <FiChevronRight />
+        <a
+          className="hover:underline font-semibold"
+          href={`/governance/${cname}/proposal/${refId}`}
+        >
+          Proposal
+        </a>
+      </div>
       <div className="w-9/12 mx-auto font-pop">
-        <div className="flex items-center w-2/12">
-          <a
-            href={`/governance/${proposalData.protocol}`}
-            className="text-2xl flex items-center font-bold text-gray-900"
-          >
-            <FiArrowLeft color="#000" className="mr-2" />
-            <span>{proposalData.protocol}</span>
-          </a>
-        </div>
         <div className="my-5 flex justify-between items-start">
           <div>
             <div className="flex items-center">

@@ -8,6 +8,7 @@ import numberFormatter from "../../utils/numberFormatter";
 import { GetServerSideProps } from "next";
 import { getDataProtocol } from "../api/protocols/[cname]";
 import { getDataProtocolProposals } from "../api/protocols/[cname]/proposals";
+import { FiChevronRight } from "react-icons/fi";
 
 interface IProps {
   protocolData: IProtocol;
@@ -50,11 +51,23 @@ export default function Protocol({
     return totalVotes;
   };
   return (
-    <div className="py-12">
+    <div className="py-6">
       <Head>
         <title>Governance | {protocolData.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="flex items-center text-lg pb-6 px-12">
+        <a className="hover:underline text-gray-600" href="/">
+          Home
+        </a>
+        <FiChevronRight />
+        <a
+          className="hover:underline font-semibold"
+          href={`/governance/${cname}`}
+        >
+          Governance
+        </a>
+      </div>
       <div className="w-9/12 mx-auto font-pop">
         <div>
           <div className="flex items-center w-2/12">

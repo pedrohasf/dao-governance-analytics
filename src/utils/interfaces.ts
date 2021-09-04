@@ -96,18 +96,19 @@ export interface IVote {
     currentState: string;
   };
 }
+export interface IVoterProtocol {
+  protocol: string;
+  totalVotesCast: number;
+  lastVoteCast: number;
+  firstVoteCast: number;
+  totalPowerCast: number;
+  lastCastPower: number;
+}
 
 export interface IVoter {
   address: string;
   firstVoteCast: number;
   lastVoteCast: number;
   totalVotesCast: number;
-  protocols: {
-    protocol: string;
-    totalVotesCast: number;
-    lastVoteCast: number;
-    firstVoteCast: number;
-    totalPowerCast: number;
-    lastCastPower: number;
-  }[];
+  protocols: IVoterProtocol[];
 }
