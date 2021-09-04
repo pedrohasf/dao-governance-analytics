@@ -6,10 +6,15 @@ export default async function Protocols(
   res: NextApiResponse
 ) {
   try {
-    const allProtocolsData = await axios.get("/protocols");
-    res.status(200).json(allProtocolsData.data);
+    const data = await getDataProtocols();
+    res.status(200).json(data);
   } catch (error) {
     res.json(error);
     res.status(400).end();
   }
 }
+
+export const getDataProtocols = async () => {
+  const allProtocolsData = await axios.get("/protocols");
+  return allProtocolsData.data;
+};

@@ -7,10 +7,15 @@ export default async function Proposal(
 ) {
   try {
     const { refId } = req.query;
-    const proposalData = await axios.get("/proposals/" + refId);
-    res.status(200).json(proposalData.data);
+    const data = await getDataProposal(Array.isArray(refId) ? refId[0] : refId);
+    res.status(200).json(data);
   } catch (error) {
     res.json(error);
     res.status(400).end();
   }
 }
+
+export const getDataProposal = async (refId: string) => {
+  const proposalData = await axios.get("/proposals/" + refId);
+  return proposalData.data;
+};
