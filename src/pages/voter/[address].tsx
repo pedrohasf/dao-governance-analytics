@@ -8,7 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { HiSelector, HiCheck } from "react-icons/hi";
+import { HiSelector, HiCheck, HiHome } from "react-icons/hi";
 
 interface IProps {
   voterData: IVoter;
@@ -20,6 +20,8 @@ interface IProps {
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
+
+const pages = [{ name: "Voter", href: "", current: true }];
 
 export default function Voter({
   voterData,
@@ -43,19 +45,62 @@ export default function Voter({
     setVoterVotesNextCursor(voterVotesResponse.data.nextCursor);
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col py-6">
       <Head>
         <title>Voter | {voterData.address}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-9/12 mx-auto font-pop">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8 mb-24">
-          <div className="px-4 py-5 sm:px-6">
+      <div className="w-10/12 mx-auto">
+        <nav className="flex mb-8" aria-label="Breadcrumb">
+          <ol
+            role="list"
+            className="bg-white rounded-md shadow px-6 flex space-x-4"
+          >
+            <li className="flex">
+              <div className="flex items-center">
+                <a href="/" className="text-gray-400 hover:text-gray-500">
+                  <HiHome
+                    className="flex-shrink-0 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Home</span>
+                </a>
+              </div>
+            </li>
+            {pages.map((page) => (
+              <li key={page.name} className="flex">
+                <div className="flex items-center">
+                  <svg
+                    className="flex-shrink-0 w-6 h-full text-gray-200"
+                    viewBox="0 0 24 44"
+                    preserveAspectRatio="none"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                  </svg>
+                  <a
+                    href={page.href}
+                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    aria-current={page.current ? "page" : undefined}
+                  >
+                    {page.name}
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+      <div className="w-9/12 mx-auto">
+        <div className="bg-white shadow overflow-x-auto sm:rounded-lg mt-8 mb-24">
+          <div className="px-4 py-5 sm:px-6 border-b border-gray-200 ">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
               Voter Information
             </h3>
           </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <div className="px-4 py-5 sm:p-0">
             <dl className="sm:divide-y sm:divide-gray-200">
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Address</dt>
@@ -98,12 +143,9 @@ export default function Voter({
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Protocols</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <div className="flex">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {voterData.protocols.map((protocol) => (
-                      <div
-                        className="flex flex-col pr-5"
-                        key={protocol.protocol}
-                      >
+                      <div className="flex flex-col" key={protocol.protocol}>
                         <span>{protocol.protocol}</span>
                         <span>
                           First vote cast:{" "}
@@ -159,7 +201,7 @@ export default function Voter({
                   Filter by protocol
                 </Listbox.Label>
                 <div className="mt-1 relative">
-                  <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <span className="block truncate">{selected}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <HiSelector
@@ -183,7 +225,7 @@ export default function Voter({
                           className={({ active }) =>
                             classNames(
                               active
-                                ? "text-white bg-indigo-600"
+                                ? "text-white bg-blue-600"
                                 : "text-gray-900",
                               "cursor-default select-none relative py-2 pl-8 pr-4"
                             )
@@ -204,7 +246,7 @@ export default function Voter({
                               {selected ? (
                                 <span
                                   className={classNames(
-                                    active ? "text-white" : "text-indigo-600",
+                                    active ? "text-white" : "text-blue-600",
                                     "absolute inset-y-0 left-0 flex items-center pl-1.5"
                                   )}
                                 >

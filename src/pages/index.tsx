@@ -24,7 +24,7 @@ export default function Home({ allProtocolsData }: IProps) {
       <Head>
         <title>DAO Governance Analytics</title>
       </Head>
-      <div className="font-pop w-9/12 mx-auto">
+      <div className="w-9/12 mx-auto">
         <h1 className="text-3xl font-black text-center mb-5">
           Explore governances
         </h1>
@@ -36,7 +36,7 @@ export default function Home({ allProtocolsData }: IProps) {
                   Order by
                 </Listbox.Label>
                 <div className="mt-1 relative">
-                  <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <span className="block truncate">{selected}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <HiSelector
@@ -60,7 +60,7 @@ export default function Home({ allProtocolsData }: IProps) {
                           className={({ active }) =>
                             classNames(
                               active
-                                ? "text-white bg-indigo-600"
+                                ? "text-white bg-blue-600"
                                 : "text-gray-900",
                               "cursor-default select-none relative py-2 pl-8 pr-4"
                             )
@@ -81,7 +81,7 @@ export default function Home({ allProtocolsData }: IProps) {
                               {selected ? (
                                 <span
                                   className={classNames(
-                                    active ? "text-white" : "text-indigo-600",
+                                    active ? "text-white" : "text-blue-600",
                                     "absolute inset-y-0 left-0 flex items-center pl-1.5"
                                   )}
                                 >
@@ -101,95 +101,172 @@ export default function Home({ allProtocolsData }: IProps) {
               </>
             )}
           </Listbox>
-          {allProtocolsData
-            .sort((protocolA, protocolB) => {
-              if (selected === "Name") {
-                if (protocolA.name < protocolB.name) {
-                  return -1;
-                }
-                if (protocolA.name > protocolB.name) {
-                  return 1;
-                }
-              }
-              if (selected === "Proposals") {
-                return protocolB.totalProposals - protocolA.totalProposals;
-              }
-              if (selected === "Voters") {
-                return protocolB.uniqueVoters - protocolA.uniqueVoters;
-              }
-              if (selected === "Ballots") {
-                return protocolB.totalVotes - protocolA.totalVotes;
-              }
-              if (
-                selected === "Token Price" &&
-                protocolA.tokens &&
-                protocolB.tokens
-              ) {
-                return (
-                  protocolB.tokens[0].marketPrices[0].price -
-                  protocolA.tokens[0].marketPrices[0].price
-                );
-              }
-              return 1;
-            })
-            .map((protocol) => (
-              <a
-                href={`/governance/${protocol.cname}`}
-                className="flex items-center justify-between mx-auto px-10 py-4 bg-gray-100 shadow-inner my-5 text-gray-600"
-                key={protocol.cname}
-              >
-                <div className="flex items-center w-2/12">
-                  <img
-                    className="w-12"
-                    src={
-                      protocol.icons
-                        ? protocol.icons[protocol.icons.length - 1]?.url
-                        : ""
-                    }
-                    alt={protocol.name + " Icon"}
-                  />
-                  <h2 className="text-xl font-bold ml-8">{protocol.name}</h2>
+          <div className="flex flex-col my-4">
+            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Protocol
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Proposals
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Voters
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Ballots
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Token
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {allProtocolsData
+                        .sort((protocolA, protocolB) => {
+                          if (selected === "Name") {
+                            if (protocolA.name < protocolB.name) {
+                              return -1;
+                            }
+                            if (protocolA.name > protocolB.name) {
+                              return 1;
+                            }
+                          }
+                          if (selected === "Proposals") {
+                            return (
+                              protocolB.totalProposals -
+                              protocolA.totalProposals
+                            );
+                          }
+                          if (selected === "Voters") {
+                            return (
+                              protocolB.uniqueVoters - protocolA.uniqueVoters
+                            );
+                          }
+                          if (selected === "Ballots") {
+                            return protocolB.totalVotes - protocolA.totalVotes;
+                          }
+                          if (
+                            selected === "Token Price" &&
+                            protocolA.tokens &&
+                            protocolB.tokens
+                          ) {
+                            return (
+                              protocolB.tokens[0].marketPrices[0].price -
+                              protocolA.tokens[0].marketPrices[0].price
+                            );
+                          }
+                          return 1;
+                        })
+                        .map((protocol) => (
+                          <tr key={protocol.cname}>
+                            <td>
+                              <a
+                                className="flex px-6 py-4 whitespace-nowrap"
+                                href={`/governance/${protocol.cname}`}
+                              >
+                                <div className="flex items-center">
+                                  <div className="flex-shrink-0 h-10 w-10">
+                                    <img
+                                      className="h-10 w-10 rounded-full"
+                                      src={
+                                        protocol.icons
+                                          ? protocol.icons[
+                                              protocol.icons.length - 1
+                                            ]?.url
+                                          : ""
+                                      }
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div className="ml-4">
+                                    <div className="font-medium text-gray-900">
+                                      {protocol.name}
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                            </td>
+                            <td>
+                              <a
+                                className="flex px-6 py-4 whitespace-nowrap"
+                                href={`/governance/${protocol.cname}`}
+                              >
+                                <div className="text-sm text-gray-600">
+                                  {protocol.totalProposals}
+                                </div>
+                              </a>
+                            </td>
+                            <td>
+                              <a
+                                className="flex px-6 py-4 whitespace-nowrap"
+                                href={`/governance/${protocol.cname}`}
+                              >
+                                <div className="text-sm text-gray-600">
+                                  {protocol.uniqueVoters}
+                                </div>
+                              </a>
+                            </td>
+                            <td>
+                              <a
+                                className="flex px-6 py-4 whitespace-nowrap text-sm text-gray-600"
+                                href={`/governance/${protocol.cname}`}
+                              >
+                                {protocol.totalVotes}
+                              </a>
+                            </td>
+                            <td>
+                              <a
+                                className="flex px-6 py-4 whitespace-nowrap"
+                                href={`/governance/${protocol.cname}`}
+                              >
+                                {protocol.tokens ? (
+                                  <div className="flex flex-col">
+                                    <div className="flex">
+                                      <span className="text-blue-400">
+                                        $
+                                        {protocol.tokens[0].symbol.toUpperCase()}
+                                      </span>
+                                    </div>
+                                    <div className="flex">
+                                      <span className="text-gray-600">
+                                        {formatter.format(
+                                          protocol.tokens[0].marketPrices[0]
+                                            .price
+                                        )}
+                                      </span>
+                                    </div>
+                                  </div>
+                                ) : null}
+                              </a>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="flex w-5/12 justify-between">
-                  <div className="flex flex-col justify-center items-center">
-                    <span className="text-gray-600 font-light">Proposals</span>
-                    <span className="text-gray-900 font-semibold">
-                      {protocol.totalProposals}
-                    </span>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <span className="text-gray-600 font-light">Voters</span>
-                    <span className="text-gray-900 font-semibold">
-                      {protocol.uniqueVoters}
-                    </span>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <span className="text-gray-600 font-light">Ballots</span>
-                    <span className="text-gray-900 font-semibold">
-                      {protocol.totalVotes}
-                    </span>
-                  </div>
-                </div>
-                <div className="w-2/12">
-                  {protocol.tokens ? (
-                    <div className="flex flex-col items-end">
-                      <div className="flex">
-                        <span className="text-blue-400 ml-4">
-                          ${protocol.tokens[0].symbol.toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        <span className="text-lg font-medium text-gray-600">
-                          {formatter.format(
-                            protocol.tokens[0].marketPrices[0].price
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              </a>
-            ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

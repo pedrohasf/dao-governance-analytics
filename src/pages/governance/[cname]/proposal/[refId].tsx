@@ -9,6 +9,7 @@ import { FiArrowLeft, FiChevronRight } from "react-icons/fi";
 import numberFormatter from "../../../../utils/numberFormatter";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { HiHome } from "react-icons/hi";
 
 interface IProps {
   proposalData: IProposal;
@@ -27,6 +28,12 @@ export default function Proposal({
     useState(nextCursor);
   const [allProposalVotesData, setAllProposalVotesData] =
     useState(proposalVotesData);
+
+  const pages = [
+    { name: "Governance", href: `/governance/${cname}`, current: false },
+    { name: "Proposal", href: "", current: true },
+  ];
+
   const loadMoreVotes = async () => {
     const proposalVotesResponse = await axios.get(
       "/api/proposals/" +
@@ -47,30 +54,56 @@ export default function Proposal({
           {proposalData.protocol} | {proposalData.title}
         </title>
       </Head>
-      <div className="flex items-center text-lg pb-6 px-12">
-        <a className="hover:underline text-gray-600" href="/">
-          Home
-        </a>
-        <FiChevronRight />
-        <a
-          className="hover:underline text-gray-600"
-          href={`/governance/${cname}`}
-        >
-          Governance
-        </a>
-        <FiChevronRight />
-        <a
-          className="hover:underline font-semibold"
-          href={`/governance/${cname}/proposal/${refId}`}
-        >
-          Proposal
-        </a>
+      <div className="w-10/12 mx-auto">
+        <nav className="flex mb-8" aria-label="Breadcrumb">
+          <ol
+            role="list"
+            className="bg-white rounded-md shadow px-6 flex space-x-4"
+          >
+            <li className="flex">
+              <div className="flex items-center">
+                <a href="/" className="text-gray-400 hover:text-gray-500">
+                  <HiHome
+                    className="flex-shrink-0 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Home</span>
+                </a>
+              </div>
+            </li>
+            {pages.map((page) => (
+              <li key={page.name} className="flex">
+                <div className="flex items-center">
+                  <svg
+                    className="flex-shrink-0 w-6 h-full text-gray-200"
+                    viewBox="0 0 24 44"
+                    preserveAspectRatio="none"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                  </svg>
+                  <a
+                    href={page.href}
+                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    aria-current={page.current ? "page" : undefined}
+                  >
+                    {page.name}
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
       </div>
-      <div className="w-9/12 mx-auto font-pop">
-        <div className="my-5 flex justify-between items-start">
+      <div className="w-9/12 mx-auto">
+        <div className="my-5 flex flex-col-reverse md:flex-row justify-between items-start">
           <div>
             <div className="flex items-center">
-              <h2 className="text-3xl font-bold">{proposalData.title}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold">
+                {proposalData.title}
+              </h2>
               <span
                 className={`uppercase font-black text-sm ml-8 px-4 py-1 mr-2 w-32 rounded-full flex items-center justify-center ${
                   proposalData.currentState === "executed" ||
@@ -86,11 +119,11 @@ export default function Proposal({
               </span>
             </div>
             <div className="prose my-4">
-              <h3 className="text-xl font-bold">Details:</h3>
+              <h3 className="text-lg font-semibold">Details:</h3>
               <ReactMarkdown>{proposalData.content}</ReactMarkdown>
             </div>
           </div>
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8 md:mb-0">
             <div className="px-4 py-5 sm:px-6">
               <h3 className="text-lg leading-6 font-semibold text-gray-900">
                 Information
@@ -166,7 +199,7 @@ export default function Proposal({
         <div className="flex flex-col my-8">
           <h2 className="text-3xl font-bold mb-4">Voters:</h2>
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="py-2 align-middle inline-block min-w-full">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
