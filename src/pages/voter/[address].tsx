@@ -323,14 +323,14 @@ export default function Voter({
                         if (selected === "All") {
                           return true;
                         } else {
-                          return (
-                            vote.protocol.toLowerCase() ===
+                          return vote.protocol.toLowerCase() ===
                             selected.toLowerCase()
-                          );
+                            ? true
+                            : false;
                         }
                       })
                       .map((vote) => (
-                        <tr key={vote.timestamp}>
+                        <tr key={vote.refId}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <a href={`/governance/${vote.protocol}`}>
                               {vote.protocol}
