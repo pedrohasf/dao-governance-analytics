@@ -35,7 +35,7 @@ export default function Protocol({
   const stats = [
     { name: "Proposals", stat: protocolData.totalProposals },
     { name: "Ballots", stat: protocolData.totalVotes },
-    { name: "Proposals", stat: protocolData.uniqueVoters },
+    { name: "Voters", stat: protocolData.uniqueVoters },
     {
       name: protocolData.tokens
         ? `$${protocolData.tokens[0].symbol.toUpperCase()}`
@@ -250,7 +250,7 @@ export default function Protocol({
                                     getTotalVotes(proposal.results)
                                   )}
                                 </span>
-                                <span>{proposal.totalVotes} addresses</span>
+                                <span>{proposal.totalVotes} voters</span>
                               </div>
                             </a>
                           </td>
