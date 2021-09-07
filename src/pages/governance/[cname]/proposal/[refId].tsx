@@ -198,7 +198,7 @@ export default function Proposal({
         </div>
         <div className="flex flex-col my-8">
           <h2 className="text-3xl font-bold mb-4">Voters:</h2>
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="-my-2 sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">

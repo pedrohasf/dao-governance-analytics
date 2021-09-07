@@ -266,7 +266,7 @@ export default function Voter({
               </>
             )}
           </Listbox>
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 mt-2">
+          <div className="-my-2 overflow-x-auto lg:overflow-x-visible sm:-mx-6 lg:-mx-8 mt-2">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -344,7 +344,20 @@ export default function Voter({
                             </a>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            {vote.proposalInfo.currentState}
+                            <span
+                              className={`uppercase rounded-sm font-black text-sm px-2 py-1 mr-2 ${
+                                vote.proposalInfo.currentState === "executed" ||
+                                vote.proposalInfo.currentState === "active"
+                                  ? "bg-green-300 text-green-700"
+                                  : vote.proposalInfo.currentState ===
+                                      "canceled" ||
+                                    vote.proposalInfo.currentState === "closed"
+                                  ? "bg-red-300 text-red-700"
+                                  : ""
+                              }`}
+                            >
+                              {vote.proposalInfo.currentState}
+                            </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             {vote.proposalInfo.choices[vote.choice]}
@@ -384,15 +397,15 @@ export default function Voter({
                   </tbody>
                 </table>
               </div>
-              {voterVotesNextCursor ? (
-                <button
-                  className="rounded-lg bg-gray-900 text-white font-bold text-xl px-4 py-2 flex ml-auto mt-4"
-                  onClick={loadMoreVotes}
-                >
-                  Load More
-                </button>
-              ) : null}
             </div>
+            {voterVotesNextCursor ? (
+              <button
+                className="rounded-lg bg-gray-900 text-white font-bold text-xl px-4 py-2 flex ml-auto mt-4"
+                onClick={loadMoreVotes}
+              >
+                Load More
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
