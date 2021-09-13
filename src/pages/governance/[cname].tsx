@@ -40,7 +40,9 @@ export default function Protocol({
       name: protocolData.tokens
         ? `$${protocolData.tokens[0].symbol.toUpperCase()}`
         : null,
-      stat: protocolData.tokens[0].marketPrices[0].price,
+      stat: protocolData.tokens
+        ? protocolData.tokens[0].marketPrices[0].price
+        : null,
     },
   ];
 
@@ -132,7 +134,16 @@ export default function Protocol({
           <div className="md:w-8/12 md:mx-auto mb-8">
             <dl className="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-4 md:divide-y-0 md:divide-x">
               {stats.map((item) =>
-                item.name?.startsWith("$") ? (
+                !item.stat ? (
+                  <div
+                    key="Token not available"
+                    className="px-4 py-5 sm:p-6 shadow-inner bg-gray-50"
+                  >
+                    <dt className="text-base font-normal text-gray-500">
+                      Token not available
+                    </dt>
+                  </div>
+                ) : item.name?.startsWith("$") ? (
                   <a
                     key={item.name}
                     href={`https://etherscan.io/token/${protocolData.tokens[0].contractAddress}`}
