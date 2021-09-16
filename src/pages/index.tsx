@@ -6,16 +6,13 @@ import { GetServerSideProps } from "next";
 import { getDataProtocols } from "./api/protocols";
 import { HiSelector, HiCheck } from "react-icons/hi";
 import { Fragment, useState } from "react";
+import classNames from "../utils/classNames";
 
 interface IProps {
   allProtocolsData: IProtocol[];
 }
 
 const options = ["Name", "Proposals", "Voters", "Ballots", "Token Price"];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Home({ allProtocolsData }: IProps) {
   const [selected, setSelected] = useState(options[0]);

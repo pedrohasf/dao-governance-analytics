@@ -9,16 +9,13 @@ import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { HiSelector, HiCheck, HiHome } from "react-icons/hi";
+import classNames from "../../utils/classNames";
 
 interface IProps {
   voterData: IVoter;
   voterVotesData: IVote[];
   nextCursor: string;
   voterProtocols: string[];
-}
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
 }
 
 const pages = [{ name: "Voter", href: "", current: true }];
