@@ -10,6 +10,7 @@ import numberFormatter from "../../../../utils/numberFormatter";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { HiHome } from "react-icons/hi";
+import getTotalVotes from "../../../../utils/getTotalVotes";
 
 interface IProps {
   proposalData: IProposal;
@@ -228,6 +229,12 @@ export default function Proposal({
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
+                        Voting power
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         Power cast
                       </th>
                     </tr>
@@ -245,6 +252,13 @@ export default function Proposal({
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {proposalData.choices[vote.choice]}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {(
+                            (vote.power / getTotalVotes(proposalData.results)) *
+                            100
+                          ).toFixed(2)}
+                          %
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {numberFormatter(vote.power)}

@@ -10,6 +10,7 @@ import { getDataProtocol } from "../api/protocols/[cname]";
 import { getDataProtocolProposals } from "../api/protocols/[cname]/proposals";
 import { FiChevronRight } from "react-icons/fi";
 import { HiArrowDown, HiArrowUp, HiHome } from "react-icons/hi";
+import getTotalVotes from "../../utils/getTotalVotes";
 
 interface IProps {
   protocolData: IProtocol;
@@ -58,15 +59,6 @@ export default function Protocol({
       ...protocolProposalsResponse.data.data,
     ]);
     setProtocolProposalsNextCursor(protocolProposalsResponse.data.nextCursor);
-  };
-
-  const getTotalVotes = (
-    proposalResults: { total: number; choice: number }[]
-  ) => {
-    const totalVotes = proposalResults.reduce((acc, currentResult) => {
-      return acc + currentResult.total;
-    }, 0);
-    return totalVotes;
   };
   return (
     <div className="py-6">
